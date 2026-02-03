@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.scripts]
-mim = "mimitaz.cli.main:app"
+mim = "mimitaz.cli.main:entry_point"
 
 [build-system]
 requires = ["hatchling"]
