@@ -113,6 +113,6 @@ export MIMITAZ_DEBUG="false"
 ---
 
 <div align="center">
-  <p><b>Designed for the 1%.</b></p>
+  <p><b>Designed for the fun </b></p>
   <p>Created by <a href="https://github.com/omik">Omik</a></p>
 </div>
