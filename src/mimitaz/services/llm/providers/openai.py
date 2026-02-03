@@ -1,3 +1,5 @@
+from pydantic import SecretStr
+import httpx
 from mimitaz.services.llm.providers.generic import GenericOpenAIProvider
 
 class OpenAIProvider(GenericOpenAIProvider):

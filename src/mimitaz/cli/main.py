@@ -43,16 +43,16 @@ def main(
     version: bool = typer.Option(False, "--version", "-v", help="Show version"),
 ):
     if version:
-        rprint("[bold cyan]mimitaz[/] version 1.0.1")
+        from importlib.metadata import version as get_version
+        try:
+            v = get_version("mimitaz")
+        except:
+            v = "dev"
+        rprint(f"[bold cyan]mimitaz[/] version {v}")
         raise typer.Exit()
     
     if settings.debug or debug:
         settings.debug = True
-
-    # Note: This callback is only reached if a subcommand is NOT invoked,
-    # OR if invoke_without_command is True.
-    # However, due to our sys.argv shim below, we mostly route to 'chat' or 'config'.
-    pass
 
 # --- Core Logic ---
 
@@ -63,11 +63,7 @@ async def run_processing(prompt: str):
         UI.print_user_message(prompt)
         messages = [Message(role="user", content=prompt)]
         
-        try:
-            api_key = settings.get_api_key()
-        except ValueError as e:
-            UI.print_system_message(f"{e}", type="error")
-            return
+        api_key = settings.get_api_key()
 
         response_stream = provider.stream_chat(
             messages=messages,
@@ -79,10 +75,7 @@ async def run_processing(prompt: str):
         UI.print_stream(chunk_generator)
         
     except Exception as e:
-        if settings.debug:
-            import traceback
-            traceback.print_exc()
-        UI.print_system_message(f"Error: {str(e)}", type="error")
+        handle_error(e)
 
 async def run_repl():
     """Interactive Loop."""
@@ -100,6 +93,8 @@ async def run_repl():
         try:
             UI.print_prompt()
             user_input = input() 
+            if not user_input.strip(): continue # Skip empty inputs
+            
             messages_history.append(Message(role="user", content=user_input))
             
             response_stream = provider.stream_chat(
@@ -108,6 +103,7 @@ async def run_repl():
                 api_key=api_key
             )
             
+            # Consume stream and accumulate response
             acc_response = ""
             chunk_generator = []
             async for chunk in response_stream:
@@ -121,7 +117,13 @@ async def run_repl():
             print("\nExiting...")
             break
         except Exception as e:
-             UI.print_system_message(f"Error: {str(e)}", type="error")
+             handle_error(e)
+
+def handle_error(e: Exception):
+    if settings.debug:
+        import traceback
+        traceback.print_exc()
+    UI.print_system_message(f"Error: {str(e)}", type="error")
 
 def entry_point():
     """

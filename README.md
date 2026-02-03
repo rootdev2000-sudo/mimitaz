@@ -49,7 +49,7 @@ Install via `pip` in editable mode for maximum control:
 ```bash
 # Clone the repository
 git clone https://github.com/omik/mimitaz.git
-cd mimitaz/mimitaz
+cd mimitaz
 
 # Setup environment
 python3 -m venv venv
@@ -95,19 +95,43 @@ git diff --staged | mim "Write a semantic commit message"
 
 ## ⚙️ Configuration
 
-Control your intelligence supply chain via environment variables or a `.env` file.
+Mimitaz offers a dedicated CLI for seamless configuration management, avoiding manual file edits.
+
+### 🔑 Authentication
+Securely manage your API keys.
 
 ```bash
-# Provider Selection (openai | anthropic | mock)
+# Set your API Key (Defaults to GLM/ZhipuAI)
+mim token set "your-api-key"
+
+# Set key for specific providers
+mim token set "sk-..." --provider openai
+mim token set "sk-ant-..." --provider anthropic
+```
+
+### 🎛️ Settings
+Manage preferences directly from the terminal.
+
+```bash
+# List all current configurations
+mim config list
+
+# Change the active provider
+mim config set provider openai
+
+# Change the default model
+mim config set model gpt-4-turbo
+
+# Enable debug mode persistently
+mim config set debug true
+```
+
+### 🌍 Environment Variables (Advanced)
+For CI/CD or specialized setups, standard environment variables take precedence:
+
+```bash
 export MIMITAZ_PROVIDER="openai"
-
-# Credentials
 export MIMITAZ_OPENAI_KEY="sk-..."
-export MIMITAZ_ANTHROPIC_KEY="sk-ant-..."
-
-# Tuning
-export MIMITAZ_MODEL="gpt-4-turbo-preview"
-export MIMITAZ_DEBUG="false"
 ```
 
 ---

@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Tuple
 from pydantic import SecretStr, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 import json
@@ -60,7 +60,7 @@ class Settings(BaseSettings):
         env_settings: Any,
         dotenv_settings: Any,
         file_secret_settings: Any,
-    ) -> tuple:
+    ) -> Tuple[Any, ...]:
         # Inject our JSON loader into the Pydantic source chain
         return (
             init_settings,

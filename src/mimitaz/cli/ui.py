@@ -2,8 +2,7 @@ from rich.console import Console
 from rich.markdown import Markdown
 from rich.theme import Theme
 from rich.live import Live
-from rich.style import Style
-from rich.panel import Panel
+from importlib.metadata import version
 
 # GLM-style minimalist theme
 glm_theme = Theme({
@@ -26,6 +25,11 @@ class UI:
     @staticmethod
     def print_banner():
         """Prints the startup banner."""
+        try:
+            v = version("mimitaz")
+        except:
+            v = "dev"
+
         banner = """
  ███╗   ███╗██╗███╗   ███╗
  ████╗ ████║██║████╗ ████║
@@ -35,7 +39,7 @@ class UI:
  ╚═╝     ╚═╝╚═╝╚═╝     ╚═╝
         """
         console.print(banner, style="gradient", justify="left")
-        console.print("[dim]  v1.0.1 • neural link active[/]", justify="left")
+        console.print(f"[dim]  v{v} • neural link active[/]", justify="left")
         console.print()
 
     @staticmethod
