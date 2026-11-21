@@ -42,13 +42,19 @@ It is not a chatbot. It is a **Unix power-tool** for intelligence.
 
 ## 🛠️ Installation
 
-### Professional Setup (Recommended)
+### Quick Installation (pipx / uv)
 
-Install via `pip` in editable mode for maximum control:
+```bash
+pipx install git+https://github.com/rootdev2000-sudo/mimitaz.git
+```
+
+### Developer Setup (Source)
+
+Install via `pip` in editable mode for development:
 
 ```bash
 # Clone the repository
-git clone https://github.com/omik/mimitaz.git
+git clone https://github.com/rootdev2000-sudo/mimitaz.git
 cd mimitaz
 
 # Setup environment
